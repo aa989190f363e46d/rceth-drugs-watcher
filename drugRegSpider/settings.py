@@ -79,7 +79,7 @@ FEED_EXPORT_FIELDS = ["mnn","name","lForm","certNum","manufacturer","invoker","r
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-     'drugRegSpider.pipelines.DrugregspiderFilesPipeline': 10,
+#     'drugRegSpider.pipelines.DrugregspiderFilesPipeline': 10,
      'drugRegSpider.pipelines.SQLiteRegistryStorePipeline': 13
 #    'drugRegSpider.pipelines.SomePipeline': 300,
 }
@@ -87,9 +87,12 @@ ITEM_PIPELINES = {
 FEED_EXPORTERS = {
     'csv': 'drugRegSpider.pipelines.DrugregspiderCsvItemExporter'
 }
+FEED_FORMAT = 'csv'
+FEED_URI = 'file://%s/%%(time)s-drugs.csv' % (abspath('data/'))
 
-FILES_STORE = abspath('/data/pdfs')
-DB_FILE = abspath('/data/registry.sqlite')
+FILES_STORE = abspath('data/pdfs')
+DB_FILE = abspath('data/registry.sqlite')
+LOG_FILE = abspath('data/logs/_.log')
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

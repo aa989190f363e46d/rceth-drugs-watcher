@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from rceth_drugs.items import DrugregSpiderItem as dri
+from drugRegSpider.items import DrugregSpiderItem as dri
 from scrapy.http import FormRequest
 import logging
 
@@ -39,7 +39,7 @@ class DrugsSpider(scrapy.Spider):
         self.traversed = {l:[] for l in _initSeq}
         return [self._getReq(l) for l in _initSeq]
 
-    def extract_text(elem):
+    def extract_text(self,elem):
         return elem.xpath('text()').extract()[0].strip()
 
     def parse(self, response):
@@ -59,14 +59,14 @@ class DrugsSpider(scrapy.Spider):
             currItem = dri()
             
             currItem["name"]              = currRow[1].xpath('a/text()').extract()[0].strip()
-            currItem["mnn"]               = extract_text(currRow[2])
-            currItem["lForm"]             = extract_text(currRow[3])            
-            currItem["manufacturer"]      = extract_text(currRow[4])
-            currItem["invoker"]           = extract_text(currRow[5])
-            currItem["certNum"]           = extract_text(currRow[6])
-            currItem["regDtBegin"]        = extract_text(currRow[7])
-            currItem["regDtExpire"]       = extract_text(currRow[8])
-            currItem["originality"]       = extract_text(currRow[9])
+            currItem["mnn"]               = self.extract_text(currRow[2])
+            currItem["lForm"]             = self.extract_text(currRow[3])            
+            currItem["manufacturer"]      = self.extract_text(currRow[4])
+            currItem["invoker"]           = self.extract_text(currRow[5])
+            currItem["certNum"]           = self.extract_text(currRow[6])
+            currItem["regDtBegin"]        = self.extract_text(currRow[7])
+            currItem["regDtExpire"]       = self.extract_text(currRow[8])
+            currItem["originality"]       = self.extract_text(currRow[9])
 
             currItem["manuals"]           = '\n'.join([u':'.join([a.xpath('text()').extract()[0],a.xpath('@href').extract()[0].split('/')[-1]]) for a in currRow[1].xpath('span/a')])
             currItem["file_urls"]         = [u for u in [u'https://www.rceth.by%s' % (href,) for href in currRow[1].xpath('span/a/@href').extract()]]

@@ -7,8 +7,7 @@
 
 import scrapy
 
-
-class DrugregspiderItem(scrapy.Item):
+class DrugregSpiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     #Торговое наименование 
